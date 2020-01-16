@@ -1,0 +1,69 @@
+{
+	"configuration": {
+		"properties": {
+			"property": {
+				"name": "FileLocation",
+				"value": "/logs/smart/flv/"
+			}
+		},
+		"appenders": {
+			"appender": [
+				{
+					"name": "CONSOLE",
+					"type": "Console",
+					"PatternLayout": {
+						"pattern": "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+					}
+				},
+				{
+					"name": "FILE",
+					"type": "RollingFile",
+					"fileName": "${FileLocation}log.log",
+					"filePattern": "${FileLocation}log.%d{yyyy-MM-dd}.%i.log",
+					"PatternLayout": {
+						"pattern": "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+					},
+					"Policies": {
+						"TimeBasedTriggeringPolicy": {
+							"interval": 1
+						},
+						"SizeBasedTriggeringPolicy": {
+							"size": "5 MB"
+						}
+					}
+				}
+			]
+		},
+		"loggers": {
+			"asyncLogger": [
+				{
+					"name": "com.converter",
+					"level": "INFO"
+				},
+				{
+					"name": "org.springframework",
+					"level": "WARN"
+				},
+				{
+					"name": "org",
+					"level": "INFO"
+				},
+				{
+					"name": "com.common",
+					"level": "INFO"
+				}
+			],
+			"asyncRoot": {
+				"level": "INFO",
+				"appender-ref": [
+					{
+						"ref": "CONSOLE"
+					},
+					{
+						"ref": "FILE"
+					}
+				]
+			}
+		}
+	}
+}
