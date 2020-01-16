@@ -20,6 +20,6 @@ http://127.0.0.1:8081/api/open?url=（视频流地址）<br>
 示列
 ---
 var flvPlayer = flvjs.createPlayer({type: 'flv',url:'http://127.0.0.1:8081/api/open?url=rtsp://admin:p@ssw0rd@192.168.1.64/h264/ch33/main/av_stream',isLive: true,hasAudio: false,hasVideo: true,enableStashBuffer: true},{});
-		flvPlayer.attachMediaElement(document.getElementById(id));
-		flvPlayer.load();
-		flvPlayer.play();
+		flvPlayer.attachMediaElement(document.getElementById(id));<br>
+		flvPlayer.load();<br>
+		flvPlayer.play();<br>
