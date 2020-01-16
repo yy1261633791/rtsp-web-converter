@@ -23,3 +23,7 @@ var flvPlayer = flvjs.createPlayer({type: 'flv',url:'http://127.0.0.1:8081/api/o
 		flvPlayer.attachMediaElement(document.getElementById(id));<br>
 		flvPlayer.load();<br>
 		flvPlayer.play();<br>
+		
+性能消耗
+---
+转码一路rtsp流在i5 7500配置下cpu占用在1%左右
