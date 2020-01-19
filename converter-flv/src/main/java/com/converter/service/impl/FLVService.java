@@ -42,7 +42,7 @@ public class FLVService implements IFLVService {
 			readFlvStream(c, outEntity, response);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			c.removeOutputStreamEntity(outEntity.getKey());
+			//c.removeOutputStreamEntity(outEntity.getKey());
 		}
 	}
 
@@ -62,7 +62,7 @@ public class FLVService implements IFLVService {
 			readFlvStream(c, outEntity, response);
 			break;
 		case OPEN:
-			Thread.sleep(400);
+			Thread.sleep(100);
 			readFlvStream(c, outEntity, response);
 			break;
 		case RUN:
@@ -73,7 +73,7 @@ public class FLVService implements IFLVService {
 				outEntity.setUpdateTime(System.currentTimeMillis());
 			}
 			c.setUpdateTime(System.currentTimeMillis());
-			Thread.sleep(200);
+			Thread.sleep(100);
 			readFlvStream(c, outEntity, response);
 			break;
 		case CLOSE:
