@@ -53,7 +53,7 @@ $(function(){
 				window.v.flvPlayer.unload();
 				window.v.flvPlayer.destroy();
 			}
-			window.v=videoObject.init("video","/api/open?url="+src);
+			window.v=videoObject.init("video","/api/open?url="+window.btoa(src));
 		}	
 	});
 	

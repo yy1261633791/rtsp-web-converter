@@ -1,5 +1,7 @@
 package com.converter.controller;
 
+import java.util.Base64;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,7 @@ public class FLVController {
 	@ApiImplicitParam(value = "流地址", name = "url", required = true)
 	@GetMapping(value = "/api/open")
 	public void open(String url, HttpServletResponse response) {
-		service.open(url, response);
+		service.open(new String(Base64.getDecoder().decode(url)), response);
 	}
 
 }
