@@ -80,9 +80,9 @@ public class ConverterFactories extends Thread implements Converter {
 			grabber = new FFmpegFrameGrabber(url);
 			if ("rtsp".equals(url.substring(0, 4))) {
 				grabber.setOption("rtsp_transport", "tcp");
-				grabber.setOption("stimeout", "50000");
+				grabber.setOption("stimeout", "500000");
 			} else {
-				grabber.setOption("timeout", "50000");
+				grabber.setOption("timeout", "500000");
 			}
 			grabber.start();
 			stream = new ByteArrayOutputStream();
