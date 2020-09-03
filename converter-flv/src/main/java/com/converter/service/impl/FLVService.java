@@ -5,6 +5,7 @@ import com.converter.factories.ConverterFactories;
 import com.converter.service.IFLVService;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.security.ConcurrentMessageDigest;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,8 @@ public class FLVService implements IFLVService {
 
     @Override
     public void open(String url, HttpServletResponse response, HttpServletRequest request) {
-        String key = MD5Encoder.encode(url.getBytes());
+//        String key = MD5Encoder.encode(url.getBytes());
+        String key = MD5Encoder.encode(ConcurrentMessageDigest.digestMD5(url.getBytes()));
         AsyncContext async = request.startAsync();
         async.setTimeout(0);
         if (converters.containsKey(key)) {
