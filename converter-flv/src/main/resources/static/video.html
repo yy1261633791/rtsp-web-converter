@@ -1,81 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-*{
-	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
-}
-video{
-	object-fit:fill;
-	width: 100%;
-	height: 100%;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+        }
+
+        video {
+            object-fit: fill;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
-	<div class="video-video-div">
-		<video id="video" width="100%" height="100%"></video>
-	</div>
-	<input type="text" id="url" value="rtsp://admin:p@ssw0rd@192.168.1.64/h264/ch33/main/av_stream">
-	<button id="play">play</button>
+<div class="video-video-div">
+    <video id="video" width="100%" height="100%"></video>
+</div>
+<input type="text" id="url" value="rtsp://admin:p@ssw0rd@192.168.1.64/h264/ch33/main/av_stream">
+<button id="play">play</button>
 </body>
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/flv.min.js"></script>
 <script type="text/javascript">
-	var videoObject={
-			init:function(id,src){
-				var self=this;
-				this.src=src;
-				this.id=id;
-				this.flvPlayer = flvjs.createPlayer({type: 'flv',url:src,isLive: true,enableStashBuffer: true},{});
-				this.flvPlayer.attachMediaElement(document.getElementById(id));
-				this.flvPlayer.load();
-				this.flvPlayer.play();
-			    this.reLoad=function(){
-					self.flvPlayer.unload();
-		            self.flvPlayer.destroy();
-		            window.v=videoObject.init(self.id,self.src);
-				}
-			    return this;
-			}
-	}
-$(function(){
-	
-	
-	$("#play").click(function(){
-		var src=$("#url").val();
-		if($.trim(src)!=""){
-			if(window.v){
-				window.v.flvPlayer.unload();
-				window.v.flvPlayer.destroy();
-			}
-			window.v=videoObject.init("video","/live/"+window.btoa(src)+"/live.flv");
-		}	
-	});
-	
-});
-	
-//获取地址栏参数
-function getParameter(name,win){
-	var params;
-	if(null==win||undefined==win){
-		params = window.location.search;
-	}else{
-		params = win.location.search;
-	}
-    params = params.substring(1, params.length);
-    params = params.split("&");
-    for (var i =0; i < params.length; i++){
-        var items = params[i].split("=");
-        var pname = items[0];
-        if(pname == name){
-            return items[1];
+    var videoObject = {
+        init: function (id, src) {
+            var self = this;
+            this.src = src;
+            this.id = id;
+            this.flvPlayer = flvjs.createPlayer({type: 'flv', url: src, isLive: true, enableStashBuffer: true}, {});
+            this.flvPlayer.attachMediaElement(document.getElementById(id));
+            this.flvPlayer.load();
+            this.flvPlayer.play();
+            this.reLoad = function () {
+                self.flvPlayer.unload();
+                self.flvPlayer.destroy();
+                window.v = videoObject.init(self.id, self.src);
+            }
+            return this;
         }
     }
-}
+    $(function () {
+
+
+        $("#play").click(function () {
+            var src = $("#url").val();
+            if ($.trim(src) != "") {
+                if (window.v) {
+                    window.v.flvPlayer.unload();
+                    window.v.flvPlayer.destroy();
+                }
+                window.v = videoObject.init("video", "/live/" + window.btoa(src) + "/live.flv");
+            }
+        });
+
+    });
+
+    //获取地址栏参数
+    function getParameter(name, win) {
+        var params;
+        if (null == win || undefined == win) {
+            params = window.location.search;
+        } else {
+            params = win.location.search;
+        }
+        params = params.substring(1, params.length);
+        params = params.split("&");
+        for (var i = 0; i < params.length; i++) {
+            var items = params[i].split("=");
+            var pname = items[0];
+            if (pname == name) {
+                return items[1];
+            }
+        }
+    }
 </script>
 </html>
