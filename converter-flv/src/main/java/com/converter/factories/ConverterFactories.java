@@ -4,6 +4,7 @@ import com.alibaba.fastjson.util.IOUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.bytedeco.ffmpeg.avcodec.AVPacket;
 import org.bytedeco.ffmpeg.global.avcodec;
+import org.bytedeco.ffmpeg.global.avutil;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 
@@ -80,6 +81,8 @@ public class ConverterFactories extends Thread implements Converter {
                 grabber.setOption("timeout", "5000000");
             }
             grabber.start();
+            //过滤掉warn日志。为了过滤掉deprecated pixel format used, make sure you did set range correctly日志。暂无好的解决方案。
+            avutil.av_log_set_level(avutil.AV_LOG_ERROR);
             if (avcodec.AV_CODEC_ID_H264 == grabber.getVideoCodec()
                     && (grabber.getAudioChannels() == 0 || avcodec.AV_CODEC_ID_AAC == grabber.getAudioCodec())) {
                 log.info("this url:{} converterFactories start", url);
@@ -102,6 +105,7 @@ public class ConverterFactories extends Thread implements Converter {
                 recorder.setFormat("flv");
                 recorder.setVideoBitrate(grabber.getVideoBitrate());
                 recorder.setVideoCodec(grabber.getVideoCodec());
+
                 recorder.start(grabber.getFormatContext());
                 if (headers == null) {
                     headers = stream.toByteArray();

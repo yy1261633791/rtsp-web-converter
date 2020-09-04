@@ -3,6 +3,7 @@ package com.converter.factories;
 import com.alibaba.fastjson.util.IOUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.bytedeco.ffmpeg.global.avcodec;
+import org.bytedeco.ffmpeg.global.avutil;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
@@ -90,6 +91,7 @@ public class ConverterTranFactories extends Thread implements Converter {
             recorder.setGopSize(50);
             recorder.setFrameRate(25);
             recorder.setSampleRate(grabber.getSampleRate());
+
             if (grabber.getAudioChannels() > 0) {
                 recorder.setAudioChannels(grabber.getAudioChannels());
                 recorder.setAudioBitrate(grabber.getAudioBitrate());
