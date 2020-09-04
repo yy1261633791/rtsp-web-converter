@@ -40,13 +40,12 @@
                 self.flvPlayer.unload();
                 self.flvPlayer.destroy();
                 window.v = videoObject.init(self.id, self.src);
-            }
+            };
             return this;
         }
-    }
+    };
+
     $(function () {
-
-
         $("#play").click(function () {
             var src = $("#url").val();
             if ($.trim(src) != "") {
@@ -57,7 +56,6 @@
                 window.v = videoObject.init("video", "/live/" + window.btoa(src) + "/live.flv");
             }
         });
-
     });
 
     //获取地址栏参数
