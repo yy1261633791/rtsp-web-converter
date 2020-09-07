@@ -80,11 +80,11 @@ public class ConverterTranFactories extends Thread implements Converter {
 			if (grabber.getImageWidth() > 1920) {
 				grabber.setImageWidth(1920);
 			}
-			if (grabber.getImageWidth() > 1080) {
+			if (grabber.getImageHeight() > 1080) {
 				grabber.setImageHeight(1080);
 			}
 			stream = new ByteArrayOutputStream();
-			recorder = new FFmpegFrameRecorder(stream, grabber.getImageWidth(), grabber.getImageWidth(),
+			recorder = new FFmpegFrameRecorder(stream, grabber.getImageWidth(), grabber.getImageHeight(),
 					grabber.getAudioChannels());
 			recorder.setInterleaved(true);
 			recorder.setVideoOption("preset", "ultrafast");
