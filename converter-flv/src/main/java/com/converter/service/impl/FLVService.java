@@ -1,6 +1,7 @@
 package com.converter.service.impl;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.converter.factories.Converter;
 import com.converter.factories.ConverterFactories;
 import com.converter.service.IFLVService;
+import com.converter.util.Des;
 import com.google.common.collect.Lists;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,14 @@ import lombok.extern.slf4j.Slf4j;
 public class FLVService implements IFLVService {
 
 	private Map<String, Converter> converters = new HashMap<>();
+	/**
+	 * 密钥
+	 */
+	private static final String DES_KEY = "W1ses0ft";
+	/**
+	 * 编码
+	 */
+	private static Charset charset = Charset.forName("utf-8");
 
 	@Override
 	public void open(String url, HttpServletResponse response, HttpServletRequest request) {
@@ -59,6 +69,16 @@ public class FLVService implements IFLVService {
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 		}
+	}
+
+	@Override
+	public String encode(String url) {
+		return Des.encryptString(url, charset, DES_KEY);
+	}
+
+	@Override
+	public String decode(String url) {
+		return Des.decryptString(url, charset, DES_KEY);
 	}
 
 }
