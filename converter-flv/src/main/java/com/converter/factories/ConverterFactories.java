@@ -79,8 +79,6 @@ public class ConverterFactories extends Thread implements Converter {
 			if ("rtsp".equals(url.substring(0, 4))) {
 				grabber.setOption("rtsp_transport", "tcp");
 				grabber.setOption("stimeout", "5000000");
-			} else {
-				grabber.setOption("timeout", "5000000");
 			}
 			grabber.start();
 			if (avcodec.AV_CODEC_ID_H264 == grabber.getVideoCodec()
