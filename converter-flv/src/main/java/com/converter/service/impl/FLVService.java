@@ -1,6 +1,8 @@
 package com.converter.service.impl;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +11,6 @@ import javax.servlet.AsyncContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.stereotype.Service;
 
 import com.converter.factories.Converter;
@@ -33,7 +34,7 @@ public class FLVService implements IFLVService {
 
 	@Override
 	public void open(String url, HttpServletResponse response, HttpServletRequest request) {
-		String key = MD5Encoder.encode(url.getBytes());
+		String key = md5(url);
 		AsyncContext async = request.startAsync();
 		async.setTimeout(0);
 		if (converters.containsKey(key)) {
@@ -59,6 +60,28 @@ public class FLVService implements IFLVService {
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 		}
+	}
+
+	public String md5(String plainText) {
+		StringBuilder buf = null;
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(plainText.getBytes());
+			byte b[] = md.digest();
+			int i;
+			buf = new StringBuilder("");
+			for (int offset = 0; offset < b.length; offset++) {
+				i = b[offset];
+				if (i < 0)
+					i += 256;
+				if (i < 16)
+					buf.append("0");
+				buf.append(Integer.toHexString(i));
+			}
+		} catch (NoSuchAlgorithmException e) {
+			log.error(e.getMessage(), e);
+		}
+		return buf.toString();
 	}
 
 }

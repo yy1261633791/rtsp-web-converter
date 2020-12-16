@@ -79,8 +79,6 @@ public class ConverterFactories extends Thread implements Converter {
 			if ("rtsp".equals(url.substring(0, 4))) {
 				grabber.setOption("rtsp_transport", "tcp");
 				grabber.setOption("stimeout", "5000000");
-			} else {
-				grabber.setOption("timeout", "5000000");
 			}
 			grabber.start();
 			if (avcodec.AV_CODEC_ID_H264 == grabber.getVideoCodec()
@@ -89,7 +87,7 @@ public class ConverterFactories extends Thread implements Converter {
 				// 来源视频H264格式,音频AAC格式
 				// 无须转码，更低的资源消耗，更低的延迟
 				stream = new ByteArrayOutputStream();
-				recorder = new FFmpegFrameRecorder(stream, grabber.getImageWidth(), grabber.getImageWidth(),
+				recorder = new FFmpegFrameRecorder(stream, grabber.getImageWidth(), grabber.getImageHeight(),
 						grabber.getAudioChannels());
 				recorder.setInterleaved(true);
 				recorder.setVideoOption("preset", "ultrafast");
