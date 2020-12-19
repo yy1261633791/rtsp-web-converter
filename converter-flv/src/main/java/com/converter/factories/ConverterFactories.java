@@ -87,7 +87,7 @@ public class ConverterFactories extends Thread implements Converter {
 				// 来源视频H264格式,音频AAC格式
 				// 无须转码，更低的资源消耗，更低的延迟
 				stream = new ByteArrayOutputStream();
-				recorder = new FFmpegFrameRecorder(stream, grabber.getImageWidth(), grabber.getImageWidth(),
+				recorder = new FFmpegFrameRecorder(stream, grabber.getImageWidth(), grabber.getImageHeight(),
 						grabber.getAudioChannels());
 				recorder.setInterleaved(true);
 				recorder.setVideoOption("preset", "ultrafast");
