@@ -125,6 +125,7 @@ public class ConverterFactories extends Thread implements Converter {
 								break;
 							}
 						}
+						avcodec.av_packet_unref(k);
 					}
 					Thread.sleep(5);
 				}
