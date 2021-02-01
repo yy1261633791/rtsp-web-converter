@@ -107,6 +107,7 @@ public class ConverterTranFactories extends Thread implements Converter {
 				stream.reset();
 				writeResponse(headers);
 			}
+			int nullNumber = 0;
 			while (runing) {
 				// 抓取一帧
 				Frame f = grabber.grab();
@@ -124,6 +125,11 @@ public class ConverterTranFactories extends Thread implements Converter {
 							log.info("没有输出退出");
 							break;
 						}
+					}
+				} else {
+					nullNumber++;
+					if (nullNumber > 200) {
+						break;
 					}
 				}
 				Thread.sleep(5);
