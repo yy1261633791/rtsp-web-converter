@@ -109,6 +109,7 @@ public class ConverterFactories extends Thread implements Converter {
 					stream.reset();
 					writeResponse(headers);
 				}
+				int nullNumber = 0;
 				while (runing) {
 					AVPacket k = grabber.grabPacket();
 					if (k != null) {
@@ -126,6 +127,11 @@ public class ConverterFactories extends Thread implements Converter {
 							}
 						}
 						avcodec.av_packet_unref(k);
+					} else {
+						nullNumber++;
+						if (nullNumber > 200) {
+							break;
+						}
 					}
 					Thread.sleep(5);
 				}
