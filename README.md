@@ -20,7 +20,7 @@ http://127.0.0.1:8081/live/{url}/live.flv     url=base64(视频流地址)<br>
 
 示列
 ---
-var flvPlayer = flvjs.createPlayer({type: 'flv',url:'http://127.0.0.1:8081/live/{base64加密后的流地址}/live.flv',isLive: true});
+var flvPlayer = flvjs.createPlayer({type: 'flv',url:'http://127.0.0.1:8081/live/{base64加密后的流地址}/live.flv',isLive: true},{isLive: true,enableStashBuffer: false,enableWorker: true,stashInitialSize: 128,videoStateMonitorInterval: 1000,decreaseDurationStep: 1,enableDurationMonitor: true,enableVideoFrozenMonitor: true});
 		flvPlayer.attachMediaElement(document.getElementById(id));<br>
 		flvPlayer.load();<br>
 		flvPlayer.play();<br>
