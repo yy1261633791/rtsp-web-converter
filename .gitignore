@@ -25,3 +25,7 @@ hs_err_pid*
 /converter-flv/.settings
 /converter-flv/target
 /converter-flv/.classpath
+/converter-flv/.idea
+/converter-flv/converter-flv.iml
+/converter-flv/.idea
+/converter-flv/converter-flv.iml

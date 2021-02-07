@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.AsyncContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.converter.config.FlvServerConfig;
 import org.springframework.stereotype.Service;
 
 import com.converter.factories.Converter;
@@ -31,10 +33,8 @@ import lombok.extern.slf4j.Slf4j;
 public class FLVService implements IFLVService {
 
 	private Map<String, Converter> converters = new HashMap<>();
-	/**
-	 * 密钥
-	 */
-	private static final String DES_KEY = "W1ses0ft";
+	@Resource
+	private FlvServerConfig flvServerConfig;
 	/**
 	 * 编码
 	 */
@@ -42,6 +42,7 @@ public class FLVService implements IFLVService {
 
 	@Override
 	public void open(String url, HttpServletResponse response, HttpServletRequest request) {
+		String key=encode(url);
 		AsyncContext async = request.startAsync();
 		async.setTimeout(0);
 		if (converters.containsKey(key)) {
@@ -71,34 +72,14 @@ public class FLVService implements IFLVService {
 
 	@Override
 	public String encode(String url) {
-		return Des.encryptString(url, charset, DES_KEY);
+		String desKey=flvServerConfig.getDesKey();
+		return Des.encryptString(url, charset, desKey);
 	}
 
 	@Override
 	public String decode(String url) {
-		return Des.decryptString(url, charset, DES_KEY);
-	}
-
-	public String md5(String plainText) {
-		StringBuilder buf = null;
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(plainText.getBytes());
-			byte b[] = md.digest();
-			int i;
-			buf = new StringBuilder("");
-			for (int offset = 0; offset < b.length; offset++) {
-				i = b[offset];
-				if (i < 0)
-					i += 256;
-				if (i < 16)
-					buf.append("0");
-				buf.append(Integer.toHexString(i));
-			}
-		} catch (NoSuchAlgorithmException e) {
-			log.error(e.getMessage(), e);
-		}
-		return buf.toString();
+		String desKey=flvServerConfig.getDesKey();
+		return Des.decryptString(url, charset, desKey);
 	}
 
 }
