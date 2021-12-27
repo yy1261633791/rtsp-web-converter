@@ -1,21 +1,23 @@
 package com.converter.service.impl;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.AsyncContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.converter.config.FlvServerConfig;
 import org.springframework.stereotype.Service;
 
 import com.converter.factories.Converter;
 import com.converter.factories.ConverterFactories;
 import com.converter.service.IFLVService;
+import com.converter.util.Des;
 import com.google.common.collect.Lists;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,10 +33,16 @@ import lombok.extern.slf4j.Slf4j;
 public class FLVService implements IFLVService {
 
 	private Map<String, Converter> converters = new HashMap<>();
+	@Resource
+	private FlvServerConfig flvServerConfig;
+	/**
+	 * 编码
+	 */
+	private static Charset charset = Charset.forName("utf-8");
 
 	@Override
 	public void open(String url, HttpServletResponse response, HttpServletRequest request) {
-		String key = md5(url);
+		String key=encode(url);
 		AsyncContext async = request.startAsync();
 		async.setTimeout(0);
 		if (converters.containsKey(key)) {
@@ -62,26 +70,16 @@ public class FLVService implements IFLVService {
 		}
 	}
 
-	public String md5(String plainText) {
-		StringBuilder buf = null;
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(plainText.getBytes());
-			byte b[] = md.digest();
-			int i;
-			buf = new StringBuilder("");
-			for (int offset = 0; offset < b.length; offset++) {
-				i = b[offset];
-				if (i < 0)
-					i += 256;
-				if (i < 16)
-					buf.append("0");
-				buf.append(Integer.toHexString(i));
-			}
-		} catch (NoSuchAlgorithmException e) {
-			log.error(e.getMessage(), e);
-		}
-		return buf.toString();
+	@Override
+	public String encode(String url) {
+		String desKey=flvServerConfig.getDesKey();
+		return Des.encryptString(url, charset, desKey);
+	}
+
+	@Override
+	public String decode(String url) {
+		String desKey=flvServerConfig.getDesKey();
+		return Des.decryptString(url, charset, desKey);
 	}
 
 }

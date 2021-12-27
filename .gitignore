@@ -21,3 +21,11 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/converter-flv/.project
+/converter-flv/.settings
+/converter-flv/target
+/converter-flv/.classpath
+/converter-flv/.idea
+/converter-flv/converter-flv.iml
+/converter-flv/.idea
+/converter-flv/converter-flv.iml
